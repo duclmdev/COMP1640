@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+repositories { mavenCentral() }
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar, javadocJar, sourcesJar
+}
+
+buildDir = 'D:\\Temp\\Compiled\\COMP1640\\'
+
+dependencies {
+    ext {
+        jersey = "2.28"
+        tomcatVersion = "9.0.16"
+    }
+    compile 'org.xerial:sqlite-jdbc:3.25.2'
+
+    compile "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
+    compile "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6"
+    compile "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+    compile "org.apache.tomcat:tomcat-jasper:${tomcatVersion}"
+    compile "org.apache.tomcat:tomcat-jasper-el:${tomcatVersion}"
+    compile "org.apache.tomcat:tomcat-jsp-api:${tomcatVersion}"
+
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+//    compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: "${jersey}"
+//    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: "${jersey}"
+//    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: "${jersey}"
+//    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: "${jersey}"
+
+    compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+
+
+    testCompile "junit:junit:4.12"
+    testCompile fileTree(dir: 'libs', include: ['*.jar'])
+
+}
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+task deployCOMP1640(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "edu.fpt.comp1640.Main"
+//    args "arg1", "arg2"
+}
