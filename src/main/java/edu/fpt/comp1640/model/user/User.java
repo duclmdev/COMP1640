@@ -14,10 +14,6 @@ public abstract class User {
     protected int role;
     private int roleId;
 
-    private boolean canSubmit;
-    private boolean canEditSubmit;
-    private boolean canViewStatistic;
-
     private User() {}
 
     User(String name, String username, String hashedPassword, String email, int roleId) {

@@ -9,7 +9,7 @@
             </ul>
             <p class="copyright text-center">
                 <script>document.write(new Date().getFullYear())</script>
-                <a href="http://github.com/duclmdev">Duclmdev</a>
+                <a href="http://github.com/duclmdev">Group 7</a>
             </p>
         </nav>
     </div>

@@ -20,6 +20,15 @@
     </servlet>
 
     <servlet-mapping>
+        <servlet-name>StatisticService</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>StatisticService</servlet-name>
+        <servlet-class>edu.fpt.comp1640.service.StatisticService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>

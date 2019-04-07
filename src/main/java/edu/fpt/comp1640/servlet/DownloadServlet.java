@@ -18,7 +18,7 @@ public class DownloadServlet extends HttpServlet {
         String id = request.getParameter("id");
         System.out.println(id);
         String fileName = "D:\\Documents\\[Japanese]\\Minna No Nihongo Audio & Textbook MondaiChoukai\\Minna No Nihongo II - Choukai.pdf";
-        String fileType = "application/pdf";
+        String fileType = "application/zip";
 
         // Find this file id in database to get file name, and file type
         // You must tell the browser the file type you are going to send
@@ -33,15 +33,22 @@ public class DownloadServlet extends HttpServlet {
         File file = new File(fileName);
 
         // This should send the file to browser
-        OutputStream out = response.getOutputStream();
-        FileInputStream in = new FileInputStream(file);
-        byte[] buffer = new byte[4096];
-        int length;
-        while ((length = in.read(buffer)) > -1) {
-            out.write(buffer, 0, length);
-        }
-        in.close();
-        out.flush();
+        sendFile(response, file);
     }
+
+    private void sendFile(HttpServletResponse response, File file) throws IOException {
+        try (
+                OutputStream out = response.getOutputStream();
+                FileInputStream in = new FileInputStream(file)
+        ) {
+            byte[] buffer = new byte[4096];
+            int length;
+            while ((length = in.read(buffer)) > -1) {
+                out.write(buffer, 0, length);
+            }
+            out.flush();
+        }
+    }
+
 }
 

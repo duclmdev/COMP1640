@@ -1,6 +1,3 @@
-<%@ page import="edu.fpt.comp1640.model.user.User" %>
-<% User user = (User) request.getSession().getAttribute("user"); %>
-
 <div class="sidebar" data-color="orange" data-image="./assets/img/university-of-greenwich.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
@@ -51,6 +48,12 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/upload.jsp">
                     <i class="nc-icon nc-simple-add"></i>
                     <p> New Submission</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="${pageContext.request.contextPath}/submissions.jsp">
+                    <i class="nc-icon nc-bullet-list-67"></i>
+                    <p> My Submissions</p>
                 </a>
             </li>
             <%}%>
