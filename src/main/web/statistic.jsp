@@ -38,33 +38,46 @@
 
         <div class="content">
             <div class="container-fluid">
-                <h3>Submissions</h3>
-                <table class="table table-hover table-striped table-bordered">
-                    <thead><tr id="header"></tr></thead>
-                    <tbody id="submissions">
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card ">
+                            <div class="card-header">
+                                <h4 class="card-title">Submissions</h4>
+                                <p class="card-category">Submissions in each faculty</p>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-submissions" class="ct-chart "></div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="legend">
+                                    <i class="fa fa-circle text-info"></i> Software Engineering
+                                    <i class="fa fa-circle text-danger"></i> Business Administrating
+                                    <i class="fa fa-circle text-warning"></i> Graphic Design
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card ">
+                            <div class="card-header ">
+                                <h4 class="card-title">Contribution</h4>
+                                <p class="card-category">Contribution of all faculties</p>
+                            </div>
+                            <div class="card-body ">
+                                <div id="chart-contribution" class="ct-chart ct-perfect-fourth"></div>
+                            </div>
+                            <div class="card-footer ">
+                                <div class="legend">
+                                    <i class="fa fa-circle text-info"></i> Software Engineering
+                                    <i class="fa fa-circle text-danger"></i> Business Administrating
+                                    <i class="fa fa-circle text-warning"></i> Graphic Design
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-
     </div>
 </div>
 </body>
@@ -88,5 +101,6 @@
 <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
 <script src="assets/js/plugins/fullcalendar.min.js"></script>
 <script src="assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="assets/js/submissions.js"></script>
+<script src="assets/js/statistic.js"></script>
 </html>
+

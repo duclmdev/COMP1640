@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
-    <servlet-mapping>
-        <servlet-name>FileUploadHandler</servlet-name>
-        <url-pattern>/upload</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>FileUploadHandler</servlet-name>
-        <servlet-class>edu.fpt.comp1640.servlet.FileUploadHandler</servlet-class>
-    </servlet>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -20,12 +12,48 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>StatisticService</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>StatisticService</servlet-name>
-        <servlet-class>edu.fpt.comp1640.service.StatisticService</servlet-class>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.DashboardServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.UploadServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.DownloadServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>StatisticServlet</servlet-name>
+        <url-pattern>/statistic</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>StatisticServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.StatisticServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SubmissionServlet</servlet-name>
+        <url-pattern>/submission</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SubmissionServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.SubmissionServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -43,7 +71,7 @@
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>

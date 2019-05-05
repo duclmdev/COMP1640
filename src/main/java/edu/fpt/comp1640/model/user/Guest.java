@@ -8,17 +8,18 @@ import java.sql.SQLException;
 public class Guest extends User {
     private int facultyId;
 
-    Guest(String name, String username, String hashedPassword, String email, int roleId) {
+    Guest(String name, String username, String hashedPassword, String email, int roleId) throws SQLException {
         super(name, username, hashedPassword, email, roleId);
+    }
 
-        String sql = "SELECT * FROM guests WHERE id = ?";
+    @Override
+    void getAdditionalInformation() throws SQLException {
+        String sql = "SELECT * FROM Guests WHERE id = ?";
         try (Database db = new Database()) {
-            ResultSet result = db.query(sql, new Integer[]{roleId});
+            ResultSet result = db.query(sql, new Integer[]{getRoleId()});
             if (result.next()) {
                 this.facultyId = result.getInt("faculty_id");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -37,8 +38,8 @@ public class Guest extends User {
     }
 
     @Override
-    public boolean canEditSubmit() {
-        return false;
+    public boolean canViewSubmission() {
+        return true;
     }
 
     @Override

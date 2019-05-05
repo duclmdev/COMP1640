@@ -12,7 +12,7 @@ public class Config {
             ini = new Ini(Main.class.getResource("config.ini").getPath());
         } catch (IOException e) {
             ini = new Ini() {{
-                put("GENERAL", "upload_dir", "/");
+                put("GENERAL", "upload_dir", "/upload");
             }};
         }
     }

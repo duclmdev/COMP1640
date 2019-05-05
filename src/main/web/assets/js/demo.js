@@ -57,7 +57,7 @@ $().ready(function () {
         });
 
     }
-    ;
+
     fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
     if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
@@ -555,11 +555,11 @@ demo = {
         /*  **************** Users Behaviour - Multiple Lines ******************** */
 
         var dataSales = {
-            labels: ['\'06', '\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
+            labels: ['20/04', '21/04', '22/04', '23/04', '24/04', '25/04', '26/04', '27/04', '28/04'],
             series: [
-                [287, 385, 490, 554, 586, 698, 695, 752, 788, 846, 944],
-                [67, 152, 143, 287, 335, 435, 437, 539, 542, 544, 647],
-                [23, 113, 67, 190, 239, 307, 308, 439, 410, 410, 509]
+                [2, 4, 6, 8, 10, 12, 14, 16, 18],
+                [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                [0, 0, 1, 1, 2, 2, 3, 3, 3]
             ]
         };
 
@@ -569,7 +569,7 @@ demo = {
                 offset: 40
             },
             low: 0,
-            high: 1000
+            high: 20
         };
 
         Chartist.Line('#chartBehaviour', dataSales, optionsSales);
@@ -598,8 +598,8 @@ demo = {
         Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
 
         Chartist.Pie('#chartPreferences', {
-            labels: ['62%', '32%', '6%'],
-            series: [62, 32, 6]
+            labels: ['60%', '30%', '10%'],
+            series: [60, 30, 10]
         });
 
         /*  **************** Views  - barchart ******************** */
@@ -1034,150 +1034,6 @@ demo = {
         //
         // //start animation for the Emails Subscription Chart
         // lbd.startAnimationForBarChart(emailsSubscriptionChart);
-
-    },
-
-    initSmallGoogleMaps: function () {
-
-        // Regular Map
-        var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-        var mapOptions = {
-            zoom: 8,
-            center: myLatlng,
-            scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-        }
-
-        var map = new google.maps.Map(document.getElementById("regularMap"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Regular Map!"
-        });
-
-        marker.setMap(map);
-
-        // Custom Skin & Settings Map
-        var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-        var mapOptions = {
-            zoom: 13,
-            center: myLatlng,
-            scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-            disableDefaultUI: true, // a way to quickly hide all controls
-            zoomControl: true,
-            styles: [{
-                "featureType": "water",
-                "stylers": [{
-                    "saturation": 43
-                }, {
-                    "lightness": -11
-                }, {
-                    "hue": "#0088ff"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "hue": "#ff0000"
-                }, {
-                    "saturation": -100
-                }, {
-                    "lightness": 99
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "geometry.stroke",
-                "stylers": [{
-                    "color": "#808080"
-                }, {
-                    "lightness": 54
-                }]
-            }, {
-                "featureType": "landscape.man_made",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "color": "#ece2d9"
-                }]
-            }, {
-                "featureType": "poi.park",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "color": "#ccdca1"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "labels.text.fill",
-                "stylers": [{
-                    "color": "#767676"
-                }]
-            }, {
-                "featureType": "road",
-                "elementType": "labels.text.stroke",
-                "stylers": [{
-                    "color": "#ffffff"
-                }]
-            }, {
-                "featureType": "poi",
-                "stylers": [{
-                    "visibility": "off"
-                }]
-            }, {
-                "featureType": "landscape.natural",
-                "elementType": "geometry.fill",
-                "stylers": [{
-                    "visibility": "on"
-                }, {
-                    "color": "#b8cb93"
-                }]
-            }, {
-                "featureType": "poi.park",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.sports_complex",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.medical",
-                "stylers": [{
-                    "visibility": "on"
-                }]
-            }, {
-                "featureType": "poi.business",
-                "stylers": [{
-                    "visibility": "simplified"
-                }]
-            }]
-
-        }
-
-        var map = new google.maps.Map(document.getElementById("customSkinMap"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Custom Skin & Settings Map!"
-        });
-
-        marker.setMap(map);
-
-        // Satellite Map
-        var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-        var mapOptions = {
-            zoom: 3,
-            scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
-        }
-
-        var map = new google.maps.Map(document.getElementById("satelliteMap"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Satellite Map!"
-        });
-
-        marker.setMap(map);
 
     },
 

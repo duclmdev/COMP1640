@@ -37,17 +37,14 @@ dependencies {
     compile "org.apache.tomcat:tomcat-jasper:${tomcatVersion}"
     compile "org.apache.tomcat:tomcat-jasper-el:${tomcatVersion}"
     compile "org.apache.tomcat:tomcat-jsp-api:${tomcatVersion}"
-
+    
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.18'
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
-
-//    compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: "${jersey}"
-//    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: "${jersey}"
-//    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: "${jersey}"
-//    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: "${jersey}"
-
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    
     compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-
+    compile 'com.google.api-client:google-api-client:1.28.0'
 
     testCompile "junit:junit:4.12"
     testCompile fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,5 +55,4 @@ tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 task deployCOMP1640(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "edu.fpt.comp1640.Main"
-//    args "arg1", "arg2"
 }

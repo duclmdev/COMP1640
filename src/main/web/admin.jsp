@@ -20,13 +20,10 @@
     <title>Submissions</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
-    <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-    <!-- CSS Files -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
-    <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="assets/css/demo.css"/>
 </head>
 
@@ -38,33 +35,21 @@
 
         <div class="content">
             <div class="container-fluid">
-                <h3>Submissions</h3>
+                <h3>Publish Year</h3>
                 <table class="table table-hover table-striped table-bordered">
-                    <thead><tr id="header"></tr></thead>
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Submit date</th>
+                        <th scope="col">Update</th>
+                    </tr>
+                    </thead>
                     <tbody id="submissions">
                     </tbody>
                 </table>
             </div>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-
     </div>
 </div>
 </body>
@@ -88,5 +73,5 @@
 <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
 <script src="assets/js/plugins/fullcalendar.min.js"></script>
 <script src="assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="assets/js/submissions.js"></script>
+<script src="assets/js/statistic.js"></script>
 </html>

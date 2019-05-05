@@ -13,12 +13,12 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        try (Database database = new Database()) {
-            User user = database.authenticate(username, password);
+        try (Database db = new Database()) {
+            User user = db.authenticate(username, password);
             System.out.println(user);
             if (user != null) {
                 request.getSession().setAttribute("user", user);
@@ -31,7 +31,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(
+            HttpServletRequest request, HttpServletResponse response
+    ) throws ServletException, IOException {
         request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
 }

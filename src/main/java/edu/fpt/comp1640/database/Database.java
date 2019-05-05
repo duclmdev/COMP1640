@@ -2,11 +2,7 @@ package edu.fpt.comp1640.database;
 
 import edu.fpt.comp1640.model.user.User;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.logging.Level;
@@ -26,7 +22,7 @@ public class Database implements AutoCloseable {
 
     //FIXME
     public User authenticate(String account, String password) {
-        String query = "SELECT * FROM Users WHERE username = ? OR email = ? LIMIT 1";
+        String query = "SELECT id, name, username, hashed_password, email, role, role_id FROM Users WHERE username = ? OR email = ? LIMIT 1";
         try (
             Connection connect = this.connection;
             PreparedStatement pstm = connect.prepareStatement(query)
@@ -72,14 +68,22 @@ public class Database implements AutoCloseable {
     }
 
     public ResultSet query(String sql) throws SQLException {
-        PreparedStatement pstm = connection.prepareStatement(sql, TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+        PreparedStatement pstm = connection.prepareStatement(sql, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY);
         return pstm.executeQuery();
     }
 
     public ResultSet query(String sql, Object[] param) throws SQLException {
-        try (PreparedStatement pstm = connection.prepareStatement(sql, TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE)) {
+        try (PreparedStatement pstm = connection.prepareStatement(sql, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY)) {
             prepareStatement(pstm, param);
             return pstm.executeQuery();
+        }
+    }
+
+    public void query(String sql, Object[] param, ResultSetHandler handler) throws Exception {
+        try (PreparedStatement pstm = connection.prepareStatement(sql, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY)) {
+            prepareStatement(pstm, param);
+            ResultSet resultSet = pstm.executeQuery();
+            handler.handle(resultSet);
         }
     }
 
@@ -118,56 +122,6 @@ public class Database implements AutoCloseable {
             }
         } catch (Throwable ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private static class Security {
-
-        boolean validatePassword(String originalPass, String storedPass) throws NoSuchAlgorithmException, InvalidKeySpecException {
-            String[] parts = storedPass.split(":");
-            int iterations = Integer.parseInt(parts[0]);
-            byte[] salt = fromHex(parts[1]);
-            byte[] hash = fromHex(parts[2]);
-            PBEKeySpec spec = new PBEKeySpec(originalPass.toCharArray(), salt, iterations, hash.length * 8);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            byte[] testHash = skf.generateSecret(spec).getEncoded();
-            int different = hash.length ^ testHash.length;
-            for (int i = 0; i < hash.length && i < testHash.length; i++) {
-                different |= hash[i] ^ testHash[i];
-            }
-            return different == 0;
-        }
-
-        String createPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-            int iterations = 1000;
-            char[] chars = password.toCharArray();
-            byte[] salt = getSalt();
-            PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            byte[] hash = skf.generateSecret(spec).getEncoded();
-            return iterations + ":" + toHex(salt) + ":" + toHex(hash);
-        }
-
-        private byte[] fromHex(String hex) throws NoSuchAlgorithmException {
-            byte[] bytes = new byte[hex.length() / 2];
-            for (int i = 0; i < bytes.length; i++) {
-                bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
-            }
-            return bytes;
-        }
-
-        private String toHex(byte[] array) throws NoSuchAlgorithmException {
-            BigInteger big = new BigInteger(1, array);
-            String hex = big.toString(16);
-            int paddingLength = (array.length * 2) - hex.length();
-            return (paddingLength > 0) ? String.format("%0" + paddingLength + "d", 0) + hex : hex;
-        }
-
-        private byte[] getSalt() throws NoSuchAlgorithmException {
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            byte[] salt = new byte[16];
-            sr.nextBytes(salt);
-            return salt;
         }
     }
 }
