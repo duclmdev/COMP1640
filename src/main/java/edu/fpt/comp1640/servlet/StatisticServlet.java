@@ -24,11 +24,6 @@ public class StatisticServlet extends HttpServlet {
             String result = "";
             if (map.containsKey("year")) {
                 result = getSubmissionStatistic(map, response);
-            } else {
-
-                if (map.containsKey("")) {
-
-                }
             }
             response.getWriter().write(result);
         } catch (Exception e) {
@@ -41,7 +36,6 @@ public class StatisticServlet extends HttpServlet {
         String sql = "SELECT count(SM.id) AS count, publish_year, faculty_id, strftime('%Y-%m-%d', submit_time) AS submit_date, count(chosen) AS chosen FROM Submissions SM JOIN Students S ON SM.student_id = S.id WHERE SM.publish_year IN (?) GROUP BY submit_date, faculty_id ORDER BY submit_date";
         // AND submit_time >= (SELECT DATETIME(max(submit_time), '-7 day') FROM Submissions)
         String year = map.get("year")[0];
-        System.out.println(year);
         return DatabaseUtils.getJSON(
                 sql,
                 new String[]{"count", "publish_year", "faculty_id", "submit_date", "chosen"},

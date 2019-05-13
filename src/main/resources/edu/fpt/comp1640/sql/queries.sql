@@ -3,7 +3,14 @@ FROM PublishYears
 WHERE year = strftime('%Y', 'now')
 ;
 
-SELECT count(S.id) AS submitted, count(CASE S.chosen WHEN 1 THEN 1 ELSE NULL END) AS chosen, first_deadline, second_deadline FROM Submissions S JOIN Students S2 ON S.student_id = S2.id JOIN PublishYears PY ON S.publish_year = PY.id WHERE strftime('%Y', 'now') = PY.year
+SELECT count(S.id)                                      AS submitted,
+       count(CASE S.chosen WHEN 1 THEN 1 ELSE NULL END) AS chosen,
+       first_deadline,
+       second_deadline
+FROM Submissions S
+         JOIN Students S2 ON S.student_id = S2.id
+         JOIN PublishYears PY ON S.publish_year = PY.id
+WHERE strftime('%Y', 'now') = PY.year
 ;
 SELECT SM.id,
        count(SM.id)                      AS count,
@@ -24,7 +31,29 @@ SELECT submit_time
 FROM Submissions S
 ORDER BY submit_time
 ;
-SELECT *
+SELECT name, student_id, publish_year, submit_time, chosen
 FROM Submissions S
 WHERE student_id = ?
-ORDER BY submit_time;
+ORDER BY submit_time
+LIMIT 10 OFFSET ?
+;
+
+SELECT SM.name, rollnumber, U.name AS student_name, submit_time, chosen
+FROM Submissions SM
+         JOIN Students S ON SM.student_id = S.id
+         JOIN Users U ON S.id = U.role_id
+WHERE role = 3
+  AND faculty_id = ?
+  AND publish_year = ?
+ORDER BY submit_time DESC
+LIMIT 10
+;
+
+SELECT SM.name, student_id, publish_year, submit_time, F.id AS file_id
+FROM Submissions SM
+         JOIN Files F ON SM.id = F.submission_id
+         JOIN PublishYears PY ON SM.publish_year = PY.id
+WHERE SM.id = ?
+;
+
+SELECT F.disk_location, F.id AS file_id FROM Submissions SM JOIN Files F ON SM.id = F.submission_id WHERE SM.id = ?

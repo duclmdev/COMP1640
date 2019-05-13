@@ -48,13 +48,14 @@
                                     <div class="col-7">
                                         <div class="numbers">
                                             <p class="card-category">Submitted</p>
-                                            <h4 class="card-title">2 articles</h4>
+                                            <h4 class="card-title"><span id="submitted"></span> article(s)</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <hr><div class="stats"><i class="fa fa-refresh"></i>Update Now</div>
+                                <hr>
+                                <div class="stats"><i class="fa fa-refresh"></i>Update Now</div>
                             </div>
                         </div>
                     </div>
@@ -70,13 +71,14 @@
                                     <div class="col-7">
                                         <div class="numbers">
                                             <p class="card-category">Selected for publishing</p>
-                                            <h4 class="card-title">1 article</h4>
+                                            <h4 class="card-title"><span id="chosen"></span> article(s)</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <hr><div class="stats"><i class="fa fa-refresh"></i>Update Now</div>
+                                <hr>
+                                <div class="stats"><i class="fa fa-refresh"></i>Update Now</div>
                             </div>
                         </div>
                     </div>
@@ -92,13 +94,17 @@
                                     <div class="col-7">
                                         <div class="numbers">
                                             <p class="card-category">Submission deadline</p>
-                                            <h4 class="card-title">30/04/2019</h4>
+                                            <h4 id="first_deadline" class="card-title">2019-04-30</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <hr><div class="stats"><i class="fa fa-clock-o"></i> Annual Magazine 2019</div>
+                                <hr>
+                                <div class="stats">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span class="py-name"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,13 +120,17 @@
                                     <div class="col-7">
                                         <div class="numbers">
                                             <p class="card-category">Publishing deadline</p>
-                                            <h4 class="card-title">20/05/2019</h4>
+                                            <h4 id="second_deadline" class="card-title">2019-05-20</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <hr><div class="stats"><i class="fa fa-clock-o"></i>Annual Magazine 2019</div>
+                                <hr>
+                                <div class="stats">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span class="py-name"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,6 +160,6 @@
 <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
 <script src="assets/js/plugins/fullcalendar.min.js"></script>
 <script src="assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="assets/js/demo.js"></script>
+<script src="assets/js/dashboard.js"></script>
 
 </html>

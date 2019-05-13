@@ -1,5 +1,7 @@
 package edu.fpt.comp1640.servlet;
 
+import edu.fpt.comp1640.model.user.User;
+import edu.fpt.comp1640.utils.CompressUtils;
 import edu.fpt.comp1640.utils.DatabaseUtils;
 
 import javax.servlet.annotation.WebServlet;
@@ -13,20 +15,40 @@ import java.util.Map;
 
 @WebServlet(name = "DownloadServlet", urlPatterns = {"/download"})
 public class DownloadServlet extends HttpServlet {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-
-    public static void main(String[] args) {
-        System.out.println(sdf.format(new Date()));
-    }
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String[]> map = request.getParameterMap();
 
         if (map.containsKey("id")) {
             downloadSingleFile(map, response);
-        } else if (map.containsKey("submissions")) {
-            downloadSubmissions(map, response);
+        } else if (map.containsKey("submission")) {
+            downloadSubmissions(map, request, response);
+        }
+    }
+
+    private void downloadSubmissions(Map<String, String[]> map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            //language=SQL
+            String sql = "SELECT disk_location FROM Submissions S JOIN Files F ON S.id = F.submission_id WHERE S.id = ?";
+            User user = (User) request.getSession().getAttribute("user");
+            String username = user.getUsername();
+
+            String submissions = map.get("submission")[0];
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            String now = sdf.format(new Date());
+            File fileOut = new File(String.format("%s-%s.zip", username, now));
+
+            DatabaseUtils.getResult(sql, new Object[]{submissions}, rs -> {
+                while (rs.next()) {
+                    CompressUtils.zipFile(rs.getString(1), fileOut);
+                }
+                sendFile(response, fileOut);
+            });
+        } catch (Exception e) {
+            response.setContentType("application/json");
+            response.getWriter().print("{\"error\": \"You don't have privilege to download this resource!\"}");
         }
     }
 
@@ -34,33 +56,24 @@ public class DownloadServlet extends HttpServlet {
         String fileSql = "SELECT disk_location FROM Files WHERE id = ?";
         try {
             String id = map.get("id")[0];
-            DatabaseUtils.getResult(fileSql, new Object[]{id}, rs -> {
+            DatabaseUtils.each(fileSql, new Object[]{id}, rs -> {
                 String address = rs.getString("disk_location");
-                File file = new File(address);
-                response.setHeader("Content-Disposition", String.format("attachment; filename=%s", file.getName()));
-                sendFile(response, file);
+                sendFile(response, new File(address));
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void downloadSubmissions(Map<String, String[]> map, HttpServletResponse response) {
-        //language=SQL
-        String sql = "SELECT S.id, S2.rollnumber, submit_time, disk_location FROM Submissions S JOIN Files F ON S.id = F.submission_id JOIN Students S2 ON S.student_id = S2.id WHERE S.id IN (?)";
-
-        try {
-            String[] submissions = map.get("submissions");
-            DatabaseUtils.getResult(sql, new Object[]{submissions}, rs -> {
-                int studentId = rs.getInt(1);
-                String rollNumber = rs.getString(2);
-                String date = sdf.format(rs.getDate(3).getTime());
-                String location = rs.getString(4);
-
-                System.out.format("%d %s %s %s", studentId, rollNumber, date, location);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void sendFile(HttpServletResponse response, File file) throws IOException {
+        response.setHeader("Content-Disposition", String.format("attachment; filename=%s", file.getName()));
+        try (OutputStream out = response.getOutputStream(); InputStream in = new FileInputStream(file)) {
+            byte[] buffer = new byte[4096];
+            int length;
+            while ((length = in.read(buffer)) > -1) {
+                out.write(buffer, 0, length);
+            }
+            out.flush();
         }
     }
 
@@ -73,17 +86,6 @@ public class DownloadServlet extends HttpServlet {
             }
         }
         return result;
-    }
-
-    private void sendFile(HttpServletResponse response, File file) throws IOException {
-        try (OutputStream out = response.getOutputStream(); InputStream in = new FileInputStream(file)) {
-            byte[] buffer = new byte[4096];
-            int length;
-            while ((length = in.read(buffer)) > -1) {
-                out.write(buffer, 0, length);
-            }
-            out.flush();
-        }
     }
 
 }

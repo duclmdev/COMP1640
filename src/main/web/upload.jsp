@@ -37,7 +37,7 @@
                         <input type="text" class="form-control" id="txt-name" placeholder="Enter your submission's name">
                     </div>
                     <div class="form-group col-lg-6 col-md-8">
-                        <label for="txt-publish">State</label>
+                        <label for="txt-publish">Publish Event</label>
                         <select id="txt-publish" class="form-control">
                             <option value="1">Annual Magazine 2019</option>
                             <option value="2" selected>Special Magazine 2019</option>
@@ -55,10 +55,10 @@
                             <i class="fa fa-upload"></i>
                             <span>Start upload</span>
                         </button>
-                        <button id="btn-cancel" class="btn btn-warning cancel">
-                            <i class="fa fa-ban"></i>
-                            <span>Cancel upload</span>
-                        </button>
+<%--                        <button id="btn-cancel" class="btn btn-warning cancel">--%>
+<%--                            <i class="fa fa-ban"></i>--%>
+<%--                            <span>Cancel upload</span>--%>
+<%--                        </button>--%>
                     </div>
                 </div>
                 <table role="presentation" class="table table-striped">
@@ -82,7 +82,7 @@
             <div id="term-content" class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="start-upload">Start Upload</button>
+                <button type="button" class="btn btn-primary" id="start-upload">Agree & Upload</button>
             </div>
         </div>
     </div>
@@ -105,13 +105,13 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="" class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="" class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
+                            <img src="" class="d-block w-100" alt="...">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

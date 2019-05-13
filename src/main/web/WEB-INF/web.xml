@@ -39,6 +39,15 @@
     </servlet>
 
     <servlet-mapping>
+        <servlet-name>ArticleServlet</servlet-name>
+        <url-pattern>/article</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ArticleServlet</servlet-name>
+        <servlet-class>edu.fpt.comp1640.servlet.ArticleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
         <servlet-name>StatisticServlet</servlet-name>
         <url-pattern>/statistic</url-pattern>
     </servlet-mapping>

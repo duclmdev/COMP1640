@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Servlet to handle File upload request from Client
@@ -43,51 +44,65 @@ public class UploadServlet extends HttpServlet {
     protected void doPost(
             HttpServletRequest request, HttpServletResponse response
     ) throws ServletException, IOException {
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try (Database db = new Database()) {
-                User user = (User) request.getSession().getAttribute("user");
-                if (user.getRole() != User.ROLE_STUDENT) return;
-                int studentId = user.getRoleId();
+        Map<String, String[]> map = request.getParameterMap();
 
-                // name, student_id, publish_year
-                String name = request.getParameter("name");
-                Object[] params = {name, studentId, 1};
-                addNewSubmission(request, db, params);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user.getRole() != User.ROLE_STUDENT) return;
+        int studentId = user.getRoleId();
 
-                //File uploaded successfully
-                request.setAttribute("message", "File Uploaded Successfully");
-            } catch (Exception ex) {
-                request.setAttribute("message", "File Upload Failed due to " + ex.getMessage());
-            }
+        if (map.containsKey("name") && map.containsKey("publish")) {
+            createNewSubmission(request, response, studentId);
         } else {
-            request.setAttribute("message", "Sorry this Servlet only handles file upload request");
+            try {
+                handleFiles(request, studentId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
-        request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
 
-    private void addNewSubmission(HttpServletRequest request, Database db, Object[] params) throws Exception {
-        ResultSet inserted = db.insert(ADD_NEW_SUBMISSION, params);
-        if (!inserted.next()) return;
-        long submissionID = inserted.getLong(1);
+    private void createNewSubmission(HttpServletRequest request, HttpServletResponse response, int studentId) {
+        try (Database db = new Database()) {
+            String name = request.getParameter("name");
+            int publish = Integer.parseInt(request.getParameter("publish"));
 
-        long time = new Date().getTime();
-        List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+            Object[] params = {name, studentId, publish};
+            ResultSet inserted = db.insert(ADD_NEW_SUBMISSION, params);
+            if (!inserted.next()) return;
 
-        for (int i = 0; i < multiparts.size(); i++) {
-            FileItem item = multiparts.get(i);
-            if (!item.isFormField()) {
-                String[] split = item.getName().split(".");
-                String extension = split[split.length - 1];
-                String fileName = String.format("%s_%d_%d.%s", params[1], time, i, extension);
-                File file = new File(UPLOAD_DIRECTORY, fileName);
-                item.write(file);
+            long id = inserted.getLong(1);
+            response.setContentType("application/json");
+            response.getWriter().write(String.format("{\"id\": %d}", id));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
-                Object[] param = {submissionID, file.getAbsolutePath()};
+    private void handleFiles(HttpServletRequest request, int studentId) throws Exception {
+        if (ServletFileUpload.isMultipartContent(request)) {
+            List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+            try (Database db = new Database()) {
+                String filePath = "";
+                int id = 1;
+                for (int i = 0; i < multiparts.size(); i++) {
+                    FileItem item = multiparts.get(i);
+                    if (!item.isFormField()) {
+                        String name = item.getName();
+                        String[] split = name.split("\\.");
+                        String extension = split[split.length - 1];
+                        long time = new Date().getTime();
+                        String fileName = String.format("%d_%s_%d_%d.%s", studentId, name, time, i, extension);
+                        File file = new File(UPLOAD_DIRECTORY, fileName);
+                        item.write(file);
+
+                        filePath = file.getAbsolutePath();
+                    } else {
+                        id = Integer.parseInt(new String(item.get()));
+                    }
+                }
+                Object[] param = {id, filePath};
                 db.update(ADD_NEW_FILE, param);
             }
         }
-
-
     }
 }

@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 public class DatabaseUtils {
     public static String getJSON(String sql, String[] fields, Object[] param) throws Exception {
         JSONArray result = new JSONArray();
-        getResult(sql, param, rs -> {
+        each(sql, param, rs -> {
             JSONObject object = new JSONObject();
             for (int i = 1, columnCount = fields.length; i <= columnCount; i++) {
                 object.put(fields[i - 1], rs.getObject(i));
@@ -18,13 +18,19 @@ public class DatabaseUtils {
         return result.toJSONString();
     }
 
-    public static void getResult(String sql, Object[] param, ResultSetHandler handler) throws Exception {
+    public static void each(String sql, Object[] param, ResultSetHandler handler) throws Exception {
         try (Database db = new Database()) {
             db.query(sql, param, rs -> {
                 while (rs.next()) {
                     handler.handle(rs);
                 }
             });
+        }
+    }
+
+    public static void getResult(String sql, Object[] param, ResultSetHandler handler) throws Exception {
+        try (Database db = new Database()) {
+            db.query(sql, param, handler);
         }
     }
 }

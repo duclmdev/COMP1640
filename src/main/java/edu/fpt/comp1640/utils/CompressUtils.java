@@ -1,50 +1,60 @@
 package edu.fpt.comp1640.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class CompressUtils {
-    public static void main(String[] args) throws IOException {
-        String sourceFile = "zipTest";
-        FileOutputStream fos = new FileOutputStream("dirCompressed.zip");
-        ZipOutputStream zipOut = new ZipOutputStream(fos);
-        File fileToZip = new File(sourceFile);
-
-        zipFile(fileToZip, fileToZip.getName(), zipOut);
-        zipOut.close();
-        fos.close();
+    public static void main(String[] args) {
+        try {
+            List<String> fileList = Arrays.asList(
+                    "D:\\Documents\\New folder\\1.PNG",
+                    "D:\\Documents\\New folder\\2.PNG",
+                    "D:\\Documents\\New folder\\1640 coursework.docx"
+            );
+            String out = "D:\\Documents\\New folder\\compress.zip";
+            zipFile(fileList, new File(out));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
-        if (fileToZip.isHidden()) {
-            return;
-        }
-        if (fileToZip.isDirectory()) {
-            if (fileName.endsWith("/")) {
-                zipOut.putNextEntry(new ZipEntry(fileName));
-                zipOut.closeEntry();
-            } else {
-                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                zipOut.closeEntry();
+
+    public static void zipFile(final List<String> files, final File targetZipFile) throws IOException {
+        try (
+                FileOutputStream fos = new FileOutputStream(targetZipFile);
+                ZipOutputStream zos = new ZipOutputStream(fos)
+        ) {
+            for (String file : files) {
+                putToZip(file, zos);
             }
-            File[] children = fileToZip.listFiles();
-            for (File childFile : children) {
-                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+        }
+    }
+
+    public static void zipFile(final String file, final File targetZipFile) throws IOException {
+        try (
+                FileOutputStream fos = new FileOutputStream(targetZipFile);
+                ZipOutputStream zos = new ZipOutputStream(fos)
+        ) {
+            putToZip(file, zos);
+        }
+    }
+
+    private static void putToZip(String file, ZipOutputStream zos) throws IOException {
+        byte[] buffer = new byte[1024];
+        File currentFile = new File(file);
+        if (currentFile.isDirectory()) return;
+
+        try (FileInputStream fis = new FileInputStream(currentFile)) {
+            ZipEntry entry = new ZipEntry(currentFile.getName());
+            zos.putNextEntry(entry);
+            int read = 0;
+            while ((read = fis.read(buffer)) != -1) {
+                zos.write(buffer, 0, read);
             }
-            return;
+            zos.closeEntry();
         }
-        FileInputStream fis = new FileInputStream(fileToZip);
-        ZipEntry zipEntry = new ZipEntry(fileName);
-        zipOut.putNextEntry(zipEntry);
-        byte[] bytes = new byte[1024];
-        int length;
-        while ((length = fis.read(bytes)) >= 0) {
-            zipOut.write(bytes, 0, length);
-        }
-        fis.close();
     }
 }

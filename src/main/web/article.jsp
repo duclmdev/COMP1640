@@ -1,4 +1,5 @@
 <%@ page import="edu.fpt.comp1640.model.user.User" %>
+<%@ page import="edu.fpt.comp1640.model.user.Coordinator" %>
 
 <%
     Object _user = session.getAttribute("user");
@@ -37,36 +38,33 @@
         <%@ include file="template/navbar.jsp" %>
         <div class="content">
             <div class="container-fluid">
-                <h3>Submissions</h3>
-                <table class="table table-hover table-striped table-bordered">
-                    <thead>
-                    <tr id="header"></tr>
-                    </thead>
-                    <tbody id="submissions"></tbody>
+                <h4 id="submit-name"></h4>
+                <h5 id="submit-time"></h5>
+
+                <table role="presentation" class="table table-striped">
+                    <tbody id="preview" class="files"></tbody>
+                </table>
+
+                <form class="form-inline col-12">
+                    <div class="form-group mb-2">
+                        <label for="txt-comment" class="sr-only"></label>
+                        <input type="text" class="form-control-plaintext" id="txt-comment" value="">
+                    </div>
+                    <button id="btn-send" type="submit" class="btn btn-primary mb-2">Send</button>
+                </form>
+                <br>
+                <hr>
+                <h5>Coordinators' comments</h5>
+                <table role="presentation" class="table table-striped">
+                    <tbody class="files" id="comments">
+                    <tr>
+                        <td><b>A Coordinator</b></td>
+                        <td>Some comment</td>
+                    </tr>
+                    </tbody>
                 </table>
             </div>
-            <form>
-
-            </form>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" data-page="prev" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" data-page="1" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" data-page="2" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" data-page="3" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" data-page="next" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-
     </div>
 </div>
 </body>
@@ -90,5 +88,5 @@
 <script src="assets/js/plugins/jquery.dataTables.min.js"></script>
 <script src="assets/js/plugins/fullcalendar.min.js"></script>
 <script src="assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="assets/js/submissions.js"></script>
+<script src="assets/js/article.js"></script>
 </html>
