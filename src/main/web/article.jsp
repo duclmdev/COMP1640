@@ -45,6 +45,9 @@
                     <tbody id="preview" class="files"></tbody>
                 </table>
 
+                <br>
+                <hr>
+                <h5>Coordinators' comments</h5>
                 <form class="form-inline col-12">
                     <div class="form-group mb-2">
                         <label for="txt-comment" class="sr-only"></label>
@@ -52,9 +55,7 @@
                     </div>
                     <button id="btn-send" type="submit" class="btn btn-primary mb-2">Send</button>
                 </form>
-                <br>
-                <hr>
-                <h5>Coordinators' comments</h5>
+
                 <table role="presentation" class="table table-striped">
                     <tbody class="files" id="comments">
                     <tr>

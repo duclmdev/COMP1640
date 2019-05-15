@@ -33,7 +33,8 @@ $("#btn-send").on("click", e => {
     const cmt = $("#txt-comment");
     const txt = cmt.val();
     if (txt.length > 0) {
-        $("#comments").prepend($("<li></li>").append(`<tr><td><b>A Coordinator</b></td><td>${txt}</td></tr>`));
+        const time = new Date().toISOString().substring(0, 18).replace("T", " ");
+        $("#comments").prepend($(`<tr><td><b>A Coordinator</b></td><td>${txt}</td><td>${time}</td></tr>`));
         cmt.val("");
     }
     e.preventDefault();
