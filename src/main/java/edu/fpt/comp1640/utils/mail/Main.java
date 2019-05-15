@@ -1,4 +1,4 @@
-package edu.fpt.comp1640.mail;
+package edu.fpt.comp1640.utils.mail;
 
 public class Main {
     private static final String SMTP_SERVER_HOST = "smtp.gmail.com";

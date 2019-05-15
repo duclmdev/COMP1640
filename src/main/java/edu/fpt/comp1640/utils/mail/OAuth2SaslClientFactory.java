@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package edu.fpt.comp1640.mail;
+package edu.fpt.comp1640.utils.mail;
 
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.sasl.SaslClient;

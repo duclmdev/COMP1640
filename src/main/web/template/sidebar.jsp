@@ -1,6 +1,4 @@
-<%@ page import="edu.fpt.comp1640.model.user.User" %>
-<% User user = (User) request.getSession().getAttribute("user"); %>
-
+<%@ page import="edu.fpt.comp1640.model.user.Administrator" %>
 <div class="sidebar" data-color="orange" data-image="./assets/img/university-of-greenwich.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
@@ -54,6 +52,33 @@
                 </a>
             </li>
             <%}%>
+
+            <% if (user.canViewSubmission()) {%>
+            <li class="nav-item ">
+                <a class="nav-link" href="${pageContext.request.contextPath}/submissions.jsp">
+                    <i class="nc-icon nc-bullet-list-67"></i>
+                    <p> Submissions</p>
+                </a>
+            </li>
+            <%}%>
+
+            <% if (user.canViewStatistic()) {%>
+            <li class="nav-item ">
+                <a class="nav-link" href="${pageContext.request.contextPath}/statistic.jsp">
+                    <i class="nc-icon nc-chart"></i>
+                    <p> Statistic</p>
+                </a>
+            </li>
+            <%}%>
+
+<%--            <% if (user instanceof Administrator) {%>--%>
+<%--            <li class="nav-item ">--%>
+<%--                <a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp">--%>
+<%--                    <i class="nc-icon nc-settings-gear-64"></i>--%>
+<%--                    <p> System Settings</p>--%>
+<%--                </a>--%>
+<%--            </li>--%>
+<%--            <%}%>--%>
         </ul>
     </div>
 </div>

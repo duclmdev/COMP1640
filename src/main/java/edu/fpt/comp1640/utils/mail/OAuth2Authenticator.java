@@ -1,4 +1,4 @@
-package edu.fpt.comp1640.mail;
+package edu.fpt.comp1640.utils.mail;
 
 import com.sun.mail.imap.IMAPSSLStore;
 import com.sun.mail.imap.IMAPStore;
@@ -25,7 +25,7 @@ public class OAuth2Authenticator {
 
         public OAuth2Provider() {
             super("Google OAuth2 Provider", 1.0, "Provides the XOAUTH2 SASL Mechanism");
-            put("SaslClientFactory.XOAUTH2", "edu.fpt.comp1640.mail.OAuth2SaslClientFactory");
+            put("SaslClientFactory.XOAUTH2", "edu.fpt.comp1640.utils.mail.OAuth2SaslClientFactory");
         }
     }
 

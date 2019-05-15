@@ -1,5 +1,7 @@
 package edu.fpt.comp1640.model.user;
 
+import java.sql.SQLException;
+
 public abstract class User {
     public static final int ROLE_ADMINISTRATOR = 0;
     public static final int ROLE_MANAGER = 1;
@@ -14,18 +16,15 @@ public abstract class User {
     protected int role;
     private int roleId;
 
-    private boolean canSubmit;
-    private boolean canEditSubmit;
-    private boolean canViewStatistic;
-
     private User() {}
 
-    User(String name, String username, String hashedPassword, String email, int roleId) {
+    User(String name, String username, String hashedPassword, String email, int roleId) throws SQLException {
         this.name = name;
         this.username = username;
         this.hashedPassword = hashedPassword;
         this.email = email;
         this.roleId = roleId;
+        getAdditionalInformation();
     }
 
     public static User getUser(
@@ -53,6 +52,8 @@ public abstract class User {
         }
     }
 
+    abstract void getAdditionalInformation() throws SQLException;
+
     public String getName() {
         return name;
     }
@@ -76,8 +77,6 @@ public abstract class User {
     }
 
     public abstract boolean canSubmit();
-
-    public abstract boolean canEditSubmit();
-
+    public abstract boolean canViewSubmission();
     public abstract boolean canViewStatistic();
 }

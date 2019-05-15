@@ -1,4 +1,4 @@
-package edu.fpt.comp1640.mail;
+package edu.fpt.comp1640.utils.mail;
 
 import com.sun.mail.smtp.SMTPTransport;
 import com.sun.mail.util.BASE64EncoderStream;
