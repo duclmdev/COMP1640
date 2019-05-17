@@ -71,14 +71,14 @@
             </li>
             <%}%>
 
-<%--            <% if (user instanceof Administrator) {%>--%>
-<%--            <li class="nav-item ">--%>
-<%--                <a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp">--%>
-<%--                    <i class="nc-icon nc-settings-gear-64"></i>--%>
-<%--                    <p> System Settings</p>--%>
-<%--                </a>--%>
-<%--            </li>--%>
-<%--            <%}%>--%>
+            <% if (user instanceof Administrator) {%>
+            <li class="nav-item ">
+                <a class="nav-link" href="${pageContext.request.contextPath}/event.jsp">
+                    <i class="nc-icon nc-settings-gear-64"></i>
+                    <p> System Settings</p>
+                </a>
+            </li>
+            <%} %>
         </ul>
     </div>
 </div>

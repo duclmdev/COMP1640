@@ -45,9 +45,6 @@
                     <tbody id="submissions"></tbody>
                 </table>
             </div>
-            <form>
-
-            </form>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled">

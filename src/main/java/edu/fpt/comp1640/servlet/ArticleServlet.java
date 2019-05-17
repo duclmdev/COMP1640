@@ -1,5 +1,6 @@
 package edu.fpt.comp1640.servlet;
 
+import edu.fpt.comp1640.database.Database;
 import edu.fpt.comp1640.utils.DatabaseUtils;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 @WebServlet(name = "ArticleServlet")
@@ -17,14 +19,34 @@ public class ArticleServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         response.setContentType("application/json");
 
         Map<String, String[]> map = request.getParameterMap();
-        if (map.containsKey("id")) {
-            try {
+        try {
+            if (map.containsKey("id")) {
                 returnInfo(request, response);
-            } catch (Exception e) { }
+            } else if (map.containsKey("select")) {
+                updateArticle(request, response);
+            }
+        } catch (Exception e) {
+            response.getWriter().write("{\"error\": \"Cannot fetch data!\"}");
+        }
+    }
+
+    private void updateArticle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //language=SQL
+        String sql = "UPDATE Submissions SET chosen = ? WHERE id = ?";
+
+        String select = request.getParameter("select");
+        String selectId = request.getParameter("select_id");
+        int selected = select.equals("true") ? 1 : 0;
+        Object[] param = {selected, selectId};
+
+        try (Database db = new Database()) {
+            db.update(sql, param);
+            response.getWriter().write("{\"success\": \"Update successfully!\"}");
+        } catch (SQLException e) {
+            response.getWriter().write("{\"error\": \"Cannot fetch data!\"}");
         }
     }
 

@@ -1,8 +1,7 @@
 package edu.fpt.comp1640.model.user;
 
-import edu.fpt.comp1640.database.Database;
+import edu.fpt.comp1640.utils.DatabaseUtils;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Coordinator extends User {
@@ -18,13 +17,17 @@ public class Coordinator extends User {
     void getAdditionalInformation() throws SQLException {
         //language=SQLite
         String sql = "SELECT faculty_id, name, description FROM Coordinators C JOIN Faculties F ON C.faculty_id = F.id WHERE C.id = ?";
-        try (Database db = new Database()) {
-            ResultSet rs = db.query(sql, new Object[]{getRoleId()});
-            if (rs.next()) {
-                facultyId = rs.getInt(1);
-                facultyName = rs.getString(2);
-                facultyDescription = rs.getString(3);
-            }
+        try {
+            DatabaseUtils.getResult(sql, new Object[]{getRoleId()}, rs -> {
+                if (rs.next()) {
+                    facultyId = rs.getInt(1);
+                    facultyName = rs.getString(2);
+                    facultyDescription = rs.getString(3);
+                    System.out.println(facultyId);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

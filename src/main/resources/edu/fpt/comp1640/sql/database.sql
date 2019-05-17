@@ -89,11 +89,6 @@ VALUES ('Software Engineering', 'SE description'),
        ('Business Administration', 'BA description'),
        ('Graphic Design', 'GD description');
 
-INSERT INTO Students(id, faculty_id, rollnumber)
-VALUES (1, 1, 'GCH15319'),
-       (2, 2, 'GBH15591'),
-       (3, 3, 'GGG12345');
-
 INSERT INTO Users (name, username, hashed_password, email, role, role_id)
 VALUES ('An Administrator', 'admin', 'dummy_pwd', 'duclmgch15319@fpt.edu.vn', 0, 1),
        ('A Manager', 'manager', 'dummy_pwd', 'duclmgch15319@fpt.edu.vn', 1, 1),
@@ -103,6 +98,13 @@ VALUES ('An Administrator', 'admin', 'dummy_pwd', 'duclmgch15319@fpt.edu.vn', 0,
        ('An GD Student', 'gdstudent', 'dummy_pwd', 'duclmgch15319@fpt.edu.vn', 3, 3),
        ('A Guest', 'guest', 'dummy_pwd', 'duclmgch15319@fpt.edu.vn', 4, 1);
 
+INSERT INTO Students(id, faculty_id, rollnumber)
+VALUES (1, 1, 'GCH15319'),
+       (2, 2, 'GBH15591'),
+       (3, 3, 'GGG12345');
+
+INSERT INTO Coordinators (faculty_id) VALUES (1);
+INSERT INTO Guests (faculty_id) VALUES (1);
 
 UPDATE Users
 SET hashed_password = '1000:a4fe87aaab4b4263e0ab02d78660228b:708efd7ff07fa8743029accbd5d' ||
@@ -112,8 +114,7 @@ WHERE 1 = 1;
 
 INSERT INTO PublishYears(name, year, first_deadline, second_deadline)
 VALUES ('Annual Magazine 2018', 2018, '2018-03-31', '2018-03-20'),
-       ('Annual Magazine 2019', 2019, '2019-04-30', '2019-05-20'),
-       ('Special Magazine 2019', 2019, '2019-04-30', '2019-05-20');
+       ('Annual Magazine 2019', 2019, '2019-04-30', '2019-05-20');
 
 INSERT INTO Submissions (id, name, student_id, publish_year, submit_time)
 VALUES (1, 'id lobortis convallis tortor risus dapibus', 2, 2, '2019-04-14 15:44:54'),

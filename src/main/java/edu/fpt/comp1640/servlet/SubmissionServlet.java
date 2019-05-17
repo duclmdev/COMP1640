@@ -30,39 +30,44 @@ public class SubmissionServlet extends HttpServlet {
         try {
             User user = (User) request.getSession().getAttribute("user");
             ArrayList<Integer> param = new ArrayList<>();
-            String[] fields = null;
+            String[] fields;
 
             if (user instanceof Student) {
                 //language=SQL
-                sql.append("SELECT id, name, submit_time, chosen FROM Submissions S WHERE student_id = ? AND publish_year = ? ORDER BY submit_time DESC LIMIT 10");
+                sql.append("SELECT id, name, submit_time, chosen FROM Submissions S WHERE student_id = ? ");
                 fields = new String[]{"id", "name", "submit_time", "chosen"};
                 param.add(user.getRoleId());
-            } else if (user instanceof Coordinator || user instanceof Guest) {
+            } else {
                 //language=SQL
-                sql.append("SELECT SM.id, SM.name, rollnumber, U.name AS student_name, submit_time, chosen FROM Submissions SM JOIN Students S ON SM.student_id = S.id JOIN Users U ON S.id = U.role_id WHERE role = 3 AND faculty_id = 1 AND publish_year = 2 ");
+                sql.append("SELECT SM.id, SM.name, rollnumber, U.name AS student_name, submit_time, chosen FROM Submissions SM JOIN Students S ON SM.student_id = S.id JOIN Users U ON S.id = U.role_id WHERE role = 3 ");
                 fields = new String[]{"id", "sm_name", "rollnumber", "student_name", "submit_time", "chosen"};
 
                 if (user instanceof Coordinator) {
-                    sql.append("ORDER BY submit_time DESC LIMIT 10");
+                    sql.append("AND faculty_id = ? ");
                     param.add(((Coordinator) user).getFacultyId());
-                } else {
-                    sql.append("AND chosen = 1 ORDER BY submit_time DESC LIMIT 10");
+                } else if (user instanceof Guest) {
+                    sql.append("AND faculty_id = ? AND chosen = 1 ");
                     param.add(((Guest) user).getFacultyId());
+                } else {
+                    sql.append("AND chosen = 1 ");
                 }
             }
             Map<String, String[]> parameterMap = request.getParameterMap();
 
             if (parameterMap.containsKey("year")) {
-                int year = Integer.parseInt(parameterMap.get("year")[0]);
+                sql.append("AND publish_year = ? ");
+                int year = Integer.parseInt(request.getParameter("year"));
                 param.add(year);
             }
 
+            sql.append("ORDER BY submit_time DESC LIMIT 10 ");
             if (parameterMap.containsKey("page")) {
-                sql.append("  OFFSET ?");
-                int page = Integer.parseInt(parameterMap.get("page")[0]);
+                sql.append("OFFSET ? ");
+                int page = Integer.parseInt(request.getParameter("page"));
                 param.add((page - 1) * 10);
             }
-
+            System.out.println(param);
+            System.out.println(sql);
             String json = getJSON(sql.toString(), fields, param.toArray());
             response.getWriter().print(json);
         } catch (Exception e) {

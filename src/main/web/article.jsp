@@ -41,6 +41,12 @@
                 <h4 id="submit-name"></h4>
                 <h5 id="submit-time"></h5>
 
+                <button class="btn btn-primary btn-download"><i class="fa fa-download"></i> Download</button>
+                <% if (user instanceof Coordinator) { %>
+                <button id="selection" class="btn">
+                    <i id="selection-icon" class="fa"></i> <span id="select-txt"></span>
+                </button>
+                <% } %>
                 <table role="presentation" class="table table-striped">
                     <tbody id="preview" class="files"></tbody>
                 </table>
@@ -48,19 +54,25 @@
                 <br>
                 <hr>
                 <h5>Coordinators' comments</h5>
-                <form class="form-inline col-12">
-                    <div class="form-group mb-2">
-                        <label for="txt-comment" class="sr-only"></label>
-                        <input type="text" class="form-control-plaintext" id="txt-comment" value="">
-                    </div>
-                    <button id="btn-send" type="submit" class="btn btn-primary mb-2">Send</button>
-                </form>
 
+                <% if (user instanceof Coordinator) { %>
+                <form><div class="input-group">
+                    <input id="txt-comment" type="text" class="form-control">
+                    <div class="input-group-append">
+                        <button id="btn-send" type="submit" class="btn btn-outline-secondary">
+                            <i class="fa fa-pencil"></i> Comment
+                        </button>
+                    </div>
+                </div></form>
+                <% } %>
+                <hr>
+                <br>
                 <table role="presentation" class="table table-striped">
                     <tbody class="files" id="comments">
                     <tr>
                         <td><b>A Coordinator</b></td>
                         <td>Some comment</td>
+                        <td>2019-04-30 00:00:00</td>
                     </tr>
                     </tbody>
                 </table>
